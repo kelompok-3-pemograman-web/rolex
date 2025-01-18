@@ -108,24 +108,3 @@ rolex/
 
 ---
 
-## 🤝 Kontribusi
-
-Jika Anda ingin berkontribusi pada proyek ini, silakan ikuti langkah-langkah berikut:
-
-1. Fork repository.
-2. Clone repository dari fork Anda.
-3. Buat branch baru untuk fitur atau perbaikan Anda.
-4. Kerjakan perubahan di branch tersebut.
-5. Push branch ke repository fork Anda.
-6. Buat Pull Request ke repository utama.
-
----
-
-## 📧 Kontak
-
-Untuk pertanyaan lebih lanjut, silakan hubungi Kelompok 3 melalui repository ini.
-
-```
-Dibuat dengan ❤️ oleh Kelompok 3 Pemrograman Web
-```
-
