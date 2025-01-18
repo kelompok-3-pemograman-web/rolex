@@ -8,5 +8,5 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # Arahkan semua permintaan ke folder "pages"
 RewriteRule ^(.*)$ pages/$1 [L]
 
-# Jika URL root diakses, arahkan ke index.php di folder "app"
-DirectoryIndex pages/login/index.php
+# Jika URL root diakses, arahkan ke index.php di folder "pages"
+DirectoryIndex index.php
