@@ -1,0 +1,12 @@
+# Mengaktifkan mode Rewrite
+RewriteEngine On
+
+# Pastikan file atau folder yang diminta tidak ada
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Arahkan semua permintaan ke folder "pages"
+RewriteRule ^(.*)$ pages/$1 [L]
+
+# Jika URL root diakses, arahkan ke index.php di folder "app"
+DirectoryIndex pages/login/index.php
