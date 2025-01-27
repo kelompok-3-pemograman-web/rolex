@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    <h1>admin page</h1>
+<body class="bg-[#1f1f1f] text-white">
+<h1>Products Detail page</h1>
 </body>
 
 </html>
