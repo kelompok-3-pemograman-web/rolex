@@ -134,7 +134,7 @@ mysqli_close($conn);
                             <?= $i ?>
                         </td>
                         <td class="p-2 align-middle hidden sm:table-cell">
-                            <img src="/assets/contents/rolex-celebrates.png" alt="News Thumbnail"
+                            <img src="<?= $newsItem['image_url'] ?>" alt="<?= $newsItem['title'] ?>"
                                  class="w-full h-auto object-cover">
                         </td>
                         <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">

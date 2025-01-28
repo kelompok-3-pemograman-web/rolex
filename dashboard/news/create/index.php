@@ -1,27 +1,16 @@
 <?php
 include('../../../config/auth.php');
 include('../../../config/db.php');
-include('../../../includes/admins.php');
+include('../../../includes/news.php');
 
 global $conn;
 
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $id = $_GET['id'];
-} else {
-    die('ID is not valid');
-}
-
-$admin = getAdminById($conn, $id);
-if ($admin === false) {
-    die('Admin not found');
-}
-
 if (isset($_POST["submit"])) {
-    $error = updateAdmin($conn, $id, $_POST);
+    $error = createNews($conn, $_POST, $_FILES['image']);
     if ($error === false) {
-        header("Location: /dashboard/user-management");
+        header("Location: /dashboard/news");
     } else {
-        header("Location: /dashboard/user-management/edit?error=$error");
+        header("Location: /dashboard/news/create?error=$error");
     }
     mysqli_close($conn);
     exit;
@@ -34,7 +23,7 @@ if (isset($_POST["submit"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rolex Admin Dashboard - Edit User</title>
+    <title>Rolex Admin Dashboard - Create News</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -109,8 +98,7 @@ if (isset($_POST["submit"])) {
                     </svg>
                 </li>
                 <li class="inline-flex items-center gap-1.5">
-                    <a class="transition-colors hover:text-[#C9C9C9]" href="/dashboard/user-management">User
-                        Management</a>
+                    <a class="transition-colors hover:text-[#C9C9C9]" href="/dashboard/news">News</a>
                 </li>
                 <li role="presentation" aria-hidden="true" class="[&>svg]:w-3.5 [&>svg]:h-3.5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -119,12 +107,12 @@ if (isset($_POST["submit"])) {
                     </svg>
                 </li>
                 <li class="inline-flex items-center gap-1.5">
-                    <span class="font-normal text-[#C9C9C9]">Edit</span>
+                    <span class="font-normal text-[#C9C9C9]">Create</span>
                 </li>
             </ol>
         </nav>
 
-        <h1 class="text-3xl font-semibold mb-6">Edit User</h1>
+        <h1 class="text-3xl font-semibold mb-6">Create News</h1>
 
         <?php if (isset($_GET['error'])): ?>
             <div>
@@ -135,33 +123,43 @@ if (isset($_POST["submit"])) {
             </div>
         <?php endif; ?>
 
-        <!-- Form Create User -->
-        <form action="" method="POST" class="space-y-4 max-w-md">
-            <!-- Username -->
+        <!-- Form Create Featured Product -->
+        <form action="" method="POST" class="space-y-4 max-w-md" enctype="multipart/form-data">
+            <!-- Image -->
             <div class="flex flex-col space-y-1">
-                <label for="username" class="text-sm">Username</label>
-                <input type="text" id="username" name="username" value="<?= $admin['username'] ?>" required
+                <label for="image" class="text-sm">Image</label>
+                <input type="file" id="image" name="image" accept="image/*" required
                        class="p-2 bg-[#333333] rounded-md outline-none focus:outline-[#444444]">
             </div>
 
-            <!-- Email -->
+            <!-- Image Preview -->
+            <img id="preview" class="hidden max-w-md h-auto object-cover rounded-md" alt="Image Preview" src="">
+
+            <!-- Title -->
             <div class="flex flex-col space-y-1">
-                <label for="email" class="text-sm">Email</label>
-                <input type="email" id="email" name="email" value="<?= $admin['email'] ?>" required
+                <label for="title" class="text-sm">Title</label>
+                <input type="text" id="title" name="title" required
                        class="p-2 bg-[#333333] rounded-md outline-none focus:outline-[#444444]">
             </div>
 
-            <!-- Password -->
+            <!-- Slug -->
             <div class="flex flex-col space-y-1">
-                <label for="password" class="text-sm">Password</label>
-                <input type="password" id="password" name="password" required
+                <label for="slug" class="text-sm">Slug</label>
+                <input type="text" id="slug" name="slug" required
                        class="p-2 bg-[#333333] rounded-md outline-none focus:outline-[#444444]">
+            </div>
+
+            <!-- Content -->
+            <div class="flex flex-col space-y-1">
+                <label for="content" class="text-sm">Content</label>
+                <textarea id="content" name="content" required
+                          class="p-2 bg-[#333333] rounded-md outline-none focus:outline-[#444444] min-h-[100px] max-h-[300px]"></textarea>
             </div>
 
             <!-- Submit Button -->
             <button name="submit" type="submit"
                     class="w-full p-2 bg-[#444444] text-white hover:bg-[#555555] rounded-md transition-colors duration-300 outline-none focus:outline-[#444444]">
-                Edit User
+                Create News
             </button>
         </form>
     </div>
@@ -189,6 +187,35 @@ if (isset($_POST["submit"])) {
         }
     });
 </script>
+
+<script>
+    document.getElementById('image').addEventListener('change', previewImage);
+
+    function previewImage(event) {
+        const file = event.target.files[0];
+
+        if (file) {
+            const fileType = file.type;
+
+            if (!fileType.startsWith('image/')) {
+                alert("Only image files are allowed.");
+                event.target.value = "";
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const preview = document.getElementById('preview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
 </body>
 
 </html>

@@ -1,4 +1,6 @@
 <?php
+include("utils.php");
+
 function getTotalFeaturedProducts($conn)
 {
     $query = "SELECT COUNT(*) AS total_featured_products FROM featured_products";
@@ -62,7 +64,7 @@ function createFeaturedProduct($conn, $data, $file)
         return "File is not an image.";
     }
 
-    $image = uploadImage($file);
+    $image = uploadImage($file, "assets/featured-products");
     if (!$image[0]) {
         return $image[1];
     }
@@ -103,7 +105,7 @@ function updateFeaturedProduct($conn, $id, $data, $file)
             unlink($imagePath);
         }
 
-        $image = uploadImage($file);
+        $image = uploadImage($file, "assets/featured-products");
         if (!$image[0]) {
             return $image[1];
         }
@@ -161,24 +163,4 @@ function validateFeaturedProductData($tagline, $description)
     }
 
     return false;
-}
-
-function uploadImage($file)
-{
-    $imageFileType = strtolower(pathinfo(basename($file['name']), PATHINFO_EXTENSION));
-    $targetDir = $_SERVER['DOCUMENT_ROOT'] . "/assets/featured-products/";
-
-    if (!is_dir($targetDir)) {
-        if (!mkdir($targetDir, 0777, true)) {
-            return [false, "Failed to create directory."];
-        }
-    }
-
-    $targetFile = $targetDir . uniqid() . "." . $imageFileType;
-
-    if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-        return ["/assets/featured-products/" . basename($targetFile), null];
-    }
-
-    return [false, "Failed to upload image."];
 }
