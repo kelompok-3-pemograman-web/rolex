@@ -99,9 +99,10 @@ mysqli_close($conn);
         <h1 class="text-3xl font-semibold mb-6">Featured Products</h1>
 
         <!-- Create Button -->
-        <button class="p-2 bg-[#C69C6D] text-white rounded-md hover:bg-[#E0B97D] transition-colors duration-300 mb-6">
+        <a href="/dashboard/featured-products/create"
+           class="p-2 bg-[#C69C6D] text-white rounded-md hover:bg-[#E0B97D] transition-colors duration-300 mb-6 inline-block">
             Create
-        </button>
+        </a>
 
         <!-- Featured Products Table -->
         <div class="relative w-full overflow-auto">

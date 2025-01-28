@@ -1,13 +1,31 @@
 <?php
-include('../../config/auth.php');
-include('../../config/db.php');
-include('../../includes/admins.php');
+include('../../../config/auth.php');
+include('../../../config/db.php');
+include('../../../includes/admins.php');
 
 global $conn;
 
-$admins = getAdmins($conn);
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $id = $_GET['id'];
+} else {
+    die('ID is not valid');
+}
 
-mysqli_close($conn);
+$admin = getAdminById($conn, $id);
+if ($admin === false) {
+    die('Admin not found');
+}
+
+if (isset($_POST["submit"])) {
+    $error = updateAdmin($conn, $id, $_POST);
+    if ($error === false) {
+        header("Location: /dashboard/user-management");
+    } else {
+        header("Location: /dashboard/user-management/edit?error=$error");
+    }
+    mysqli_close($conn);
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +34,7 @@ mysqli_close($conn);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rolex Admin Dashboard - User Management</title>
+    <title>Rolex Admin Dashboard - Create User</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -91,71 +109,61 @@ mysqli_close($conn);
                     </svg>
                 </li>
                 <li class="inline-flex items-center gap-1.5">
-                    <span class="font-normal text-[#C9C9C9]">User Management</span>
+                    <a class="transition-colors hover:text-[#C9C9C9]" href="/dashboard/user-management">User
+                        Management</a>
+                </li>
+                <li role="presentation" aria-hidden="true" class="[&>svg]:w-3.5 [&>svg]:h-3.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18 6-6-6-6"></path>
+                    </svg>
+                </li>
+                <li class="inline-flex items-center gap-1.5">
+                    <span class="font-normal text-[#C9C9C9]">Edit</span>
                 </li>
             </ol>
         </nav>
 
-        <h1 class="text-3xl font-semibold mb-6">User Management</h1>
+        <h1 class="text-3xl font-semibold mb-6">Edit User</h1>
 
-        <!-- Create Button -->
-        <a href="/dashboard/user-management/create"
-           class="p-2 bg-[#C69C6D] text-white rounded-md hover:bg-[#E0B97D] transition-colors duration-300 mb-6 inline-block">
-            Create
-        </a>
+        <?php if (isset($_GET['error'])): ?>
+            <div>
+                <label class="text-sm text-[#D9534F]">Error</label>
+                <div class="bg-[#C9302C] text-white p-2 rounded-md mb-4 text-center max-w-md">
+                    <?= $_GET['error'] ?>
+                </div>
+            </div>
+        <?php endif; ?>
 
-        <!-- User Management Table -->
-        <div class="relative w-full overflow-auto">
-            <table class="w-full caption-bottom text-sm">
-                <thead class="[&_tr]:border-b">
-                <tr class="border-b transition-colors hover:bg-[#333333]/50 data-[state=selected]:bg-[#333333] border-[#333333]">
-                    <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] w-[50px]">
-                        #
-                    </th>
-                    <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        Username
-                    </th>
-                    <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        Email
-                    </th>
-                    <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] w-[200px]">
-                        Actions
-                    </th>
-                </tr>
-                </thead>
-                <tbody class="[&_tr:last-child]:border-0">
-                <?php $i = 1; ?>
-                <?php foreach ($admins as $admin): ?>
-                    <tr class="border-b transition-colors hover:bg-[#333333]/50 data-[state=selected]:bg-[#333333] border-[#333333]">
-                        <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                            <?= $i ?>
-                        </td>
-                        <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                            <?= $admin['username'] ?>
-                        </td>
-                        <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                            <?= $admin['email'] ?>
-                        </td>
-                        <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                            <a href="/dashboard/user-management/edit?id=<?= $admin['id'] ?>"
-                               class="p-2 bg-[#444444] text-white rounded-md hover:bg-[#555555] transition-colors duration-300 inline-block">
-                                Edit
-                            </a>
-                            <form action="/dashboard/user-management/delete.php?id=<?= $admin['id'] ?>" method="post"
-                                  class="inline">
-                                <button type="submit"
-                                        class="p-2 bg-[#D9534F] text-white rounded-md hover:bg-[#C9302C] transition-colors duration-300"
-                                        onclick="return confirm('Are you sure you want to delete this user?')">
-                                    Delete
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    <?php $i++; ?>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+        <!-- Form Create User -->
+        <form action="" method="POST" class="space-y-4 max-w-md">
+            <!-- Username -->
+            <div class="flex flex-col space-y-1">
+                <label for="username" class="text-sm">Username</label>
+                <input type="text" id="username" name="username" value="<?= $admin['username'] ?>" required
+                       class="p-2 bg-[#333333] rounded-md outline-none focus:outline-[#444444]">
+            </div>
+
+            <!-- Email -->
+            <div class="flex flex-col space-y-1">
+                <label for="email" class="text-sm">Email</label>
+                <input type="email" id="email" name="email" value="<?= $admin['email'] ?>" required
+                       class="p-2 bg-[#333333] rounded-md outline-none focus:outline-[#444444]">
+            </div>
+
+            <!-- Password -->
+            <div class="flex flex-col space-y-1">
+                <label for="password" class="text-sm">Password</label>
+                <input type="password" id="password" name="password" required
+                       class="p-2 bg-[#333333] rounded-md outline-none focus:outline-[#444444]">
+            </div>
+
+            <!-- Submit Button -->
+            <button name="submit" type="submit"
+                    class="w-full p-2 bg-[#444444] text-white hover:bg-[#555555] rounded-md transition-colors duration-300 outline-none focus:outline-[#444444]">
+                Edit User
+            </button>
+        </form>
     </div>
 </div>
 
