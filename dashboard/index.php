@@ -70,12 +70,12 @@ mysqli_close($conn);
         </form>
     </div>
 
-    <!-- Overlay (visible when sidebar is open on mobile) -->
+    <!-- Overlay -->
     <div id="overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40"></div>
 
     <!-- Main Content -->
     <div class="flex-1 p-6 lg:ml-64 transition-all">
-        <!-- Hamburger Menu Button (visible only on mobile) -->
+        <!-- Hamburger Menu Button -->
         <button id="hamburger-btn" class="lg:hidden text-white p-2 mb-4 bg-[#232323] rounded-md">
             <i class="fas fa-bars text-xl"></i>
         </button>
@@ -111,27 +111,22 @@ mysqli_close($conn);
     </div>
 </div>
 
-<!-- Script untuk toggle sidebar pada mobile -->
 <script>
-    // Ambil elemen-elemen DOM
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     const mainContent = document.querySelector('div.flex-1');
 
-    // Fungsi untuk membuka atau menutup sidebar
     const toggleSidebar = () => {
         sidebar.classList.toggle('-translate-x-full');
         sidebar.classList.toggle('translate-x-0');
         overlay.classList.toggle('hidden');
     };
 
-    // Event listener untuk tombol hamburger
     hamburgerBtn.addEventListener('click', () => {
         toggleSidebar();
     });
 
-    // Event listener untuk overlay
     overlay.addEventListener('click', () => {
         if (sidebar.classList.contains('translate-x-0')) {
             toggleSidebar();

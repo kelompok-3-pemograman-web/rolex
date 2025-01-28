@@ -57,22 +57,45 @@ function createAdmin($conn, $data)
 
     $sql = "INSERT INTO admins (username, email, password) VALUES (?, ?, ?)";
 
-    // Menyiapkan statement
     if ($stmt = mysqli_prepare($conn, $sql)) {
-        // Bind parameter
         mysqli_stmt_bind_param($stmt, "sss", $username, $email, $hashedPassword);
 
-        // Menjalankan query
         if (!mysqli_stmt_execute($stmt)) {
-            $error = mysqli_stmt_error($stmt);  // Mengambil error dari statement
+            $error = mysqli_stmt_error($stmt);
             mysqli_stmt_close($stmt);
             return "Error executing query: " . $error;
         }
 
-        // Menutup statement
         mysqli_stmt_close($stmt);
     } else {
-        // Jika statement gagal disiapkan
+        $error = mysqli_error($conn);
+        return "Error preparing statement: " . $error;
+    }
+
+    return false;
+}
+
+function deleteAdmin($conn, $id)
+{
+    $totalAdmins = getTotalAdmins($conn);
+    if ($totalAdmins <= 1) {
+        $error = "Cannot delete the last admin.";
+        return $error;
+    }
+
+    $sql = "DELETE FROM admins WHERE id = ?";
+
+    if ($stmt = mysqli_prepare($conn, $sql)) {
+        mysqli_stmt_bind_param($stmt, "i", $id);
+
+        if (!mysqli_stmt_execute($stmt)) {
+            $error = mysqli_stmt_error($stmt);
+            mysqli_stmt_close($stmt);
+            return "Error executing query: " . $error;
+        }
+
+        mysqli_stmt_close($stmt);
+    } else {
         $error = mysqli_error($conn);
         return "Error preparing statement: " . $error;
     }
