@@ -51,10 +51,11 @@ function createFeaturedProduct($conn, $data, $file)
         return $error;
     }
 
+    $name = $data['name'];
     $tagline = $data['tagline'];
     $description = $data['description'];
 
-    $validationError = validateFeaturedProductData($tagline, $description);
+    $validationError = validateFeaturedProductData($name, $tagline, $description);
     if ($validationError) {
         return $validationError;
     }
@@ -69,9 +70,9 @@ function createFeaturedProduct($conn, $data, $file)
         return $image[1];
     }
 
-    $query = "INSERT INTO featured_products (tagline, description, image_url, created_by) VALUES (?, ?, ?, ?)";
+    $query = "INSERT INTO featured_products (name, tagline, description, image_url, created_by) VALUES (?, ?, ?, ?, ?)";
     if ($stmt = mysqli_prepare($conn, $query)) {
-        mysqli_stmt_bind_param($stmt, "sssi", $tagline, $description, $image[0], $adminId);
+        mysqli_stmt_bind_param($stmt, "ssssi", $name, $tagline, $description, $image[0], $adminId);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
         return false;
@@ -86,10 +87,11 @@ function updateFeaturedProduct($conn, $id, $data, $file)
         return "Featured product not found.";
     }
 
+    $name = $data['name'];
     $tagline = $data['tagline'];
     $description = $data['description'];
 
-    $validationError = validateFeaturedProductData($tagline, $description);
+    $validationError = validateFeaturedProductData($name, $tagline, $description);
     if ($validationError) {
         return $validationError;
     }
@@ -113,9 +115,9 @@ function updateFeaturedProduct($conn, $id, $data, $file)
         $image = [$featuredProduct['image_url'], null];
     }
 
-    $query = "UPDATE featured_products SET tagline = ?, description = ?, image_url = ? WHERE id = ?";
+    $query = "UPDATE featured_products SET name = ?, tagline = ?, description = ?, image_url = ? WHERE id = ?";
     if ($stmt = mysqli_prepare($conn, $query)) {
-        mysqli_stmt_bind_param($stmt, "sssi", $tagline, $description, $image[0], $id);
+        mysqli_stmt_bind_param($stmt, "ssssi", $name, $tagline, $description, $image[0], $id);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
         return false;
@@ -152,8 +154,12 @@ function deleteFeaturedProduct($conn, $id)
     return "Failed to delete featured product.";
 }
 
-function validateFeaturedProductData($tagline, $description)
+function validateFeaturedProductData($name, $tagline, $description)
 {
+    if (strlen($name) < 5 || strlen($name) > 50) {
+        return "Name must be between 5 and 50 characters.";
+    }
+
     if (strlen($tagline) < 5 || strlen($tagline) > 255) {
         return "Tagline must be between 5 and 255 characters.";
     }

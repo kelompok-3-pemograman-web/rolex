@@ -148,6 +148,13 @@ if (isset($_POST["submit"])) {
             <img id="preview" class="max-w-md h-auto object-cover rounded-md" alt="Image Preview"
                  src="<?= $featuredProduct['image_url'] ?>">
 
+            <!-- Name -->
+            <div class="flex flex-col space-y-1">
+                <label for="name" class="text-sm">Name</label>
+                <input type="text" id="name" name="name" value="<?= $featuredProduct['name'] ?>" required
+                       class="p-2 bg-[#333333] rounded-md outline-none focus:outline-[#444444]">
+            </div>
+
             <!-- Tagline -->
             <div class="flex flex-col space-y-1">
                 <label for="tagline" class="text-sm">Tagline</label>

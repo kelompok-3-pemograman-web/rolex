@@ -115,6 +115,9 @@ mysqli_close($conn);
                     <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] hidden sm:table-cell w-[100px]">
                         Thumbnail
                     </th>
+                    <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] w-[100px]">
+                        Name
+                    </th>
                     <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] xl:w-[200px]">
                         Tagline
                     </th>
@@ -136,6 +139,9 @@ mysqli_close($conn);
                         <td class="p-2 align-middle hidden sm:table-cell [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
                             <img src="<?= $product['image_url'] ?>" alt="<?= $product['tagline'] ?>"
                                  class="w-full h-auto object-cover">
+                        </td>
+                        <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
+                            <?= $product['name'] ?>
                         </td>
                         <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
                             <?= $product['tagline'] ?>
