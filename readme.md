@@ -73,25 +73,21 @@ Berikut adalah struktur dasar direktori proyek ini:
 
 ```
 rolex/
+├── assets/         # Folder untuk aset publik
 ├── config/         # Folder untuk konfigurasi database dan autentikasi
 │   ├── auth.php    # File autentikasi
 │   └── db.php      # File konfigurasi database
-├── includes/       # Folder untuk file yang di-include (header, footer, sidebar)
-│   ├── footer.php  # Footer website
-│   ├── header.php  # Header website
-│   └── sidebar.php # Sidebar website
-├── pages/          # Folder untuk halaman website
-│   ├── admin/      # Halaman admin
-│   │   └── index.php
-│   ├── article/    # Halaman artikel
-│   │   └── index.php
-│   └── login/      # Halaman login
-│       └── index.php
-├── public/         # Folder untuk file publik (CSS, JS, gambar, dll.)
-│   ├── assets/     # Folder untuk aset
-│   └── contents/   # Folder untuk konten
-├── .htaccess       # File konfigurasi server
+├── dashboard/      # Halaman dashboard admin
+│   └── index.php
+├── includes/       # Folder untuk file yang di-include
+├── login/          # Halaman login
+│   └── index.php
+├── news/           # Halaman artikel
+│   └── index.php
+├── products/       # Halaman produk
+│   └── index.php
 ├── index.php       # Halaman utama website
+├── schema.sql      # File schema untuk database
 └── README.md       # Dokumentasi proyek
 ```
 
@@ -105,6 +101,22 @@ rolex/
    Untuk cloning repository dan pengelolaan kode.
 3. **Browser**\
    Untuk mengakses website melalui `localhost`.
+
+---
+
+## 🔐 Halaman Login
+Untuk mengakses halaman login, buka browser dan navigasikan ke:
+
+```bash
+http://localhost:port/rolex/login
+```
+
+Masukkan username dan password berikut:
+
+* Username: admin
+* Password: 123123
+
+Jika login berhasil, Anda akan diarahkan ke halaman dashboard.
 
 ---
 
