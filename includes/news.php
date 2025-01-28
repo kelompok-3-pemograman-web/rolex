@@ -50,6 +50,21 @@ function getNewsById($conn, $id)
     return false;
 }
 
+function getNewsBySlug($conn, $slug)
+{
+    $query = "SELECT * FROM news WHERE slug = ?";
+    if ($stmt = mysqli_prepare($conn, $query)) {
+        mysqli_stmt_bind_param($stmt, "s", $slug);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        if ($result) {
+            $news = mysqli_fetch_assoc($result);
+            return $news;
+        }
+    }
+    return false;
+}
+
 function createNews($conn, $data, $file)
 {
     $adminId = $_SESSION['auth'];
