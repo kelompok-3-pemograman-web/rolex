@@ -142,24 +142,14 @@ function deleteAdmin($conn, $id)
         return $error;
     }
 
-    $sql = "DELETE FROM admins WHERE id = ?";
-
-    if ($stmt = mysqli_prepare($conn, $sql)) {
+    $query = "DELETE FROM admins WHERE id = ?";
+    if ($stmt = mysqli_prepare($conn, $query)) {
         mysqli_stmt_bind_param($stmt, "i", $id);
-
-        if (!mysqli_stmt_execute($stmt)) {
-            $error = mysqli_stmt_error($stmt);
-            mysqli_stmt_close($stmt);
-            return "Error executing query: " . $error;
-        }
-
+        mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
-    } else {
-        $error = mysqli_error($conn);
-        return "Error preparing statement: " . $error;
+        return false;
     }
-
-    return false;
+    return "Failed to delete admin.";
 }
 
 function validateAdminData($username, $password)
