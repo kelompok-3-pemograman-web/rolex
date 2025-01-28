@@ -1,13 +1,20 @@
 <?php
-include('../../config/auth.php');
-include('../../config/db.php');
-include('../../includes/featured-products.php');
+include('../../../config/auth.php');
+include('../../../config/db.php');
+include('../../../includes/featured-products.php');
 
 global $conn;
 
-$featuredProducts = getFeaturedProducts($conn);
-
-mysqli_close($conn);
+if (isset($_POST["submit"])) {
+    $error = createFeaturedProduct($conn, $_POST, $_FILES['image']);
+    if ($error === false) {
+        header("Location: /dashboard/featured-products");
+    } else {
+        header("Location: /dashboard/featured-products/create?error=$error");
+    }
+    mysqli_close($conn);
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +23,7 @@ mysqli_close($conn);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rolex Admin Dashboard - Featured Products</title>
+    <title>Rolex Admin Dashboard - Create User</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -91,72 +98,64 @@ mysqli_close($conn);
                     </svg>
                 </li>
                 <li class="inline-flex items-center gap-1.5">
-                    <span class="font-normal text-[#C9C9C9]">Featured Products</span>
+                    <a class="transition-colors hover:text-[#C9C9C9]" href="/dashboard/featured-products">Featured
+                        Products</a>
+                </li>
+                <li role="presentation" aria-hidden="true" class="[&>svg]:w-3.5 [&>svg]:h-3.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18 6-6-6-6"></path>
+                    </svg>
+                </li>
+                <li class="inline-flex items-center gap-1.5">
+                    <span class="font-normal text-[#C9C9C9]">Create</span>
                 </li>
             </ol>
         </nav>
 
-        <h1 class="text-3xl font-semibold mb-6">Featured Products</h1>
+        <h1 class="text-3xl font-semibold mb-6">Create New Featured Product</h1>
 
-        <!-- Create Button -->
-        <a href="/dashboard/featured-products/create"
-           class="p-2 bg-[#C69C6D] text-white rounded-md hover:bg-[#E0B97D] transition-colors duration-300 mb-6 inline-block">
-            Create
-        </a>
+        <?php if (isset($_GET['error'])): ?>
+            <div>
+                <label class="text-sm text-[#D9534F]">Error</label>
+                <div class="bg-[#C9302C] text-white p-2 rounded-md mb-4 text-center max-w-md">
+                    <?= $_GET['error'] ?>
+                </div>
+            </div>
+        <?php endif; ?>
 
-        <!-- Featured Products Table -->
-        <div class="relative w-full overflow-auto">
-            <table class="w-full caption-bottom text-sm">
-                <thead class="[&_tr]:border-b">
-                <tr class="border-b transition-colors hover:bg-[#333333]/50 data-[state=selected]:bg-[#333333] border-[#333333]">
-                    <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] w-[50px]">
-                        #
-                    </th>
-                    <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] hidden sm:table-cell w-[100px]">
-                        Thumbnail
-                    </th>
-                    <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] xl:w-[200px]">
-                        Tagline
-                    </th>
-                    <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] hidden xl:table-cell">
-                        Description
-                    </th>
-                    <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] w-[200px]">
-                        Actions
-                    </th>
-                </tr>
-                </thead>
-                <tbody class="[&_tr:last-child]:border-0">
-                <?php $i = 1; ?>
-                <?php foreach ($featuredProducts as $product): ?>
-                    <tr class="border-b transition-colors hover:bg-[#333333]/50 data-[state=selected]:bg-[#333333] border-[#333333]">
-                        <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                            <?= $i ?>
-                        </td>
-                        <td class="p-2 align-middle hidden sm:table-cell [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                            <img src="<?= $product['image_url'] ?>" alt="<?= $product['tagline'] ?>"
-                                 class="w-full h-auto object-cover">
-                        </td>
-                        <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                            <?= $product['tagline'] ?>
-                        </td>
-                        <td class="p-2 align-middle hidden xl:table-cell [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                            <?= $product['description'] ?>
-                        </td>
-                        <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                            <button class="p-2 bg-[#444444] text-white rounded-md hover:bg-[#555555] transition-colors duration-300">
-                                Edit
-                            </button>
-                            <button class="p-2 bg-[#D9534F] text-white rounded-md hover:bg-[#C9302C] transition-colors duration-300">
-                                Delete
-                            </button
-                        </td>
-                    </tr>
-                    <?php $i++; ?>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+        <!-- Form Create Featured Product -->
+        <form action="" method="POST" class="space-y-4 max-w-md" enctype="multipart/form-data">
+            <!-- Image -->
+            <div class="flex flex-col space-y-1">
+                <label for="image" class="text-sm">Image</label>
+                <input type="file" id="image" name="image" accept="image/*" required
+                       class="p-2 bg-[#333333] rounded-md outline-none focus:outline-[#444444]">
+            </div>
+
+            <!-- Image Preview -->
+            <img id="preview" class="hidden max-w-md h-auto object-cover rounded-md" alt="Image Preview" src="">
+
+            <!-- Tagline -->
+            <div class="flex flex-col space-y-1">
+                <label for="tagline" class="text-sm">Tagline</label>
+                <input type="text" id="tagline" name="tagline" required
+                       class="p-2 bg-[#333333] rounded-md outline-none focus:outline-[#444444]">
+            </div>
+
+            <!-- Description -->
+            <div class="flex flex-col space-y-1">
+                <label for="description" class="text-sm">Description</label>
+                <textarea id="description" name="description" required
+                          class="p-2 bg-[#333333] rounded-md outline-none focus:outline-[#444444] min-h-[100px] max-h-[300px]"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button name="submit" type="submit"
+                    class="w-full p-2 bg-[#444444] text-white hover:bg-[#555555] rounded-md transition-colors duration-300 outline-none focus:outline-[#444444]">
+                Create Featured Product
+            </button>
+        </form>
     </div>
 </div>
 
@@ -182,6 +181,35 @@ mysqli_close($conn);
         }
     });
 </script>
+
+<script>
+    document.getElementById('image').addEventListener('change', previewImage);
+
+    function previewImage(event) {
+        const file = event.target.files[0];
+
+        if (file) {
+            const fileType = file.type;
+
+            if (!fileType.startsWith('image/')) {
+                alert("Only image files are allowed.");
+                event.target.value = "";
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const preview = document.getElementById('preview');
+                preview.src = e.target.result;
+                preview.style.display = 'block'; // Menampilkan elemen <img>
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
 </body>
 
 </html>
