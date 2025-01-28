@@ -17,6 +17,11 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rolex Admin Dashboard - Featured Products</title>
+
+    <meta name="description" content="Manage and display featured products in the Rolex admin dashboard. Highlight your top-selling items and promote special offers directly on your website.">
+    <meta name="keywords" content="Rolex, admin dashboard, featured products, product management, Rolex admin, top products, special offers, Rolex items, product display, admin panel products">
+    <meta name="author" content="Rolex">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>

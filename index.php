@@ -18,6 +18,11 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rolex</title>
+
+    <meta name="description" content="Rolex is a leading luxury watch brand known for its high-quality craftsmanship and iconic designs. Explore the latest Rolex collection on our official website.">
+    <meta name="keywords" content="Rolex, luxury watches, men's watches, Rolex collection, best luxury watches, Rolex design">
+    <meta name="author" content="Rolex">
+
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>

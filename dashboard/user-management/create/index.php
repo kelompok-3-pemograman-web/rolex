@@ -24,6 +24,11 @@ if (isset($_POST["submit"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rolex Admin Dashboard - Create User</title>
+
+    <meta name="description" content="Create new users and manage user access in the Rolex admin dashboard. Easily add, edit, and assign roles to users in a secure environment.">
+    <meta name="keywords" content="Rolex, admin dashboard, create user, user management, Rolex admin, user roles, add user, admin panel, Rolex admin access">
+    <meta name="author" content="Rolex">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>

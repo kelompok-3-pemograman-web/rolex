@@ -24,6 +24,11 @@ if (isset($_POST["submit"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rolex Admin Dashboard - Create Featured Product</title>
+
+    <meta name="description" content="Create and add new featured products to your Rolex admin dashboard. Highlight your best-selling items and attract customers with special promotions.">
+    <meta name="keywords" content="Rolex, admin dashboard, create featured product, add product, featured products, Rolex admin, product management, create new product, product promotion, Rolex items">
+    <meta name="author" content="Rolex">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>

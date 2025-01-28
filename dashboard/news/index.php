@@ -17,6 +17,11 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rolex Admin Dashboard - News</title>
+
+    <meta name="description" content="Stay up-to-date with the latest news and updates in the Rolex admin dashboard. View the most recent announcements, updates, and features in the Rolex ecosystem.">
+    <meta name="keywords" content="Rolex, admin dashboard, news, Rolex updates, admin panel news, Rolex announcements, Rolex features, dashboard news, Rolex ecosystem">
+    <meta name="author" content="Rolex">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>

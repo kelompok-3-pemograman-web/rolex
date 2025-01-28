@@ -35,6 +35,11 @@ if (isset($_POST["submit"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rolex Admin Dashboard - Edit News</title>
+
+    <meta name="description" content="Edit news articles and updates in the Rolex admin dashboard. Manage announcements, update content, and keep your users informed with the latest information.">
+    <meta name="keywords" content="Rolex, admin dashboard, edit news, update news, Rolex admin, news management, Rolex announcements, Rolex updates, admin panel news">
+    <meta name="author" content="Rolex">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>

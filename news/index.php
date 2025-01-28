@@ -24,6 +24,11 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rolex News - <?= $news['title'] ?></title>
+
+    <meta name="description" content="<?= $news['content'] ?>">
+    <meta name="keywords" content="rolex, watches, luxury, news, <?= $news['title'] ?>">
+    <meta name="author" content="Rolex">
+
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 

@@ -29,6 +29,11 @@ if (isset($_POST["submit"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rolex Login</title>
+
+    <meta name="description" content="Login to your Rolex admin dashboard to manage your collection of luxury watches, update inventory, and monitor sales. Secure and easy access.">
+    <meta name="keywords" content="Rolex, admin login, luxury watches, Rolex admin dashboard, secure login, watch inventory management, Rolex admin access">
+    <meta name="author" content="Rolex">
+
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 

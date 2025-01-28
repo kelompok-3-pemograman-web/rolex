@@ -17,6 +17,11 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rolex Admin Dashboard - User Management</title>
+
+    <meta name="description" content="Manage users and permissions in the Rolex admin dashboard. Easily update, delete, and view user information in a secure and user-friendly interface.">
+    <meta name="keywords" content="Rolex, admin dashboard, user management, Rolex admin, user permissions, admin panel, manage users, Rolex user control">
+    <meta name="author" content="Rolex">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
