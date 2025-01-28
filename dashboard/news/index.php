@@ -147,9 +147,10 @@ mysqli_close($conn);
                             <?= $newsItem['content'] ?>
                         </td>
                         <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                            <button class="p-2 bg-[#444444] text-white rounded-md hover:bg-[#555555] transition-colors duration-300">
+                            <a href="/dashboard/news/edit?id=<?= $newsItem['id'] ?>"
+                               class="p-2 bg-[#444444] text-white rounded-md hover:bg-[#555555] transition-colors duration-300 inline-block">
                                 Edit
-                            </button>
+                            </a>
                             <form action="/dashboard/news/delete.php?id=<?= $newsItem['id'] ?>"
                                   method="post"
                                   class="inline">

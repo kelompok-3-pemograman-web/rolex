@@ -90,6 +90,51 @@ function createNews($conn, $data, $file)
     return "Failed to create news.";
 }
 
+function updateNews($conn, $id, $data, $file)
+{
+    $news = getNewsById($conn, $id);
+    if (!$news) {
+        return "News not found.";
+    }
+
+    $title = $data['title'];
+    $slug = $data['slug'];
+    $content = $data['content'];
+
+    $validationError = validateNewsData($title, $slug, $content);
+    if ($validationError) {
+        return $validationError;
+    }
+
+    if ($file['error'] === 0) {
+        $check = getimagesize($file['tmp_name']);
+        if ($check === false) {
+            return "File is not an image.";
+        }
+
+        $imagePath = $_SERVER['DOCUMENT_ROOT'] . $news['image_url'];
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+
+        $image = uploadImage($file, "assets/news");
+        if (!$image[0]) {
+            return $image[1];
+        }
+    } else {
+        $image = [$news['image_url'], null];
+    }
+
+    $query = "UPDATE news SET title = ?, slug = ?, content = ?, image_url = ? WHERE id = ?";
+    if ($stmt = mysqli_prepare($conn, $query)) {
+        mysqli_stmt_bind_param($stmt, "ssssi", $title, $slug, $content, $image[0], $id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return false;
+    }
+    return "Failed to update news.";
+}
+
 function deleteNews($conn, $id)
 {
     $news = getNewsById($conn, $id);
