@@ -1,13 +1,12 @@
 services:
   php:
-    image: php:8.4-cli
+    build: .
     volumes:
       - ./:/var/www/html
     depends_on:
       - mysql
     networks:
       - app_network
-    command: ["php", "-S", "0.0.0.0:3000", "-t", "/var/www/html"]
     ports:
       - "3000:3000"
 
@@ -21,6 +20,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
       - mysql_data:/var/lib/mysql
     networks:
       - app_network

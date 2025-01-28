@@ -1,9 +1,13 @@
 <?php
-session_start();
-if (!isset($_SESSION['auth'])) {
-    header('location:/login');
-    exit;
-}
+include('../../config/auth.php');
+include('../../config/db.php');
+include('../../includes/news.php');
+
+global $conn;
+
+$news = getNews($conn);
+
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -104,34 +108,34 @@ if (!isset($_SESSION['auth'])) {
                 </tr>
                 </thead>
                 <tbody class="[&_tr:last-child]:border-0">
-                <tr class="border-b transition-colors hover:bg-[#333333]/50 data-[state=selected]:bg-[#333333] border-[#333333]">
-                    <td class="p-2 align-middle">1</td>
-                    <td class="p-2 align-middle hidden sm:table-cell">
-                        <img src="/assets/contents/rolex-celebrates.png" alt="News Thumbnail"
-                             class="w-full h-auto object-cover">
-                    </td>
-                    <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        Rolex Celebrates 120 Years of Timeless Elegance
-                    </td>
-                    <td class="p-2 align-middle hidden sm:table-cell [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        rolex-celebrates-120-years-of-timeless-elegance
-                    </td>
-                    <td class="p-2 align-middle hidden xl:table-cell [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        This year marks a major milestone for Rolex as it celebrates 120 years of unparalleled
-                        excellence in watchmaking. A legacy that began in 1905 continues to shape the future of
-                        horology, with Rolex continuing to innovate while staying true to its roots of precision,
-                        craftsmanship, and luxury. Join us in celebrating this historic occasion, as we look back at the
-                        key moments that have defined the Rolex story over the decades.
-                    </td>
-                    <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        <button class="p-2 bg-[#444444] text-white rounded-md hover:bg-[#555555] transition-colors duration-300">
-                            Edit
-                        </button>
-                        <button class="p-2 bg-[#D9534F] text-white rounded-md hover:bg-[#C9302C] transition-colors duration-300">
-                            Delete
-                        </button
-                    </td>
-                </tr>
+                <?php foreach ($news as $newsItem): ?>
+                    <tr class="border-b transition-colors hover:bg-[#333333]/50 data-[state=selected]:bg-[#333333] border-[#333333]">
+                        <td class="p-2 align-middle">
+                            <?= $newsItem['id'] ?>
+                        </td>
+                        <td class="p-2 align-middle hidden sm:table-cell">
+                            <img src="/assets/contents/rolex-celebrates.png" alt="News Thumbnail"
+                                 class="w-full h-auto object-cover">
+                        </td>
+                        <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
+                            <?= $newsItem['title'] ?>
+                        </td>
+                        <td class="p-2 align-middle hidden sm:table-cell [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
+                            <?= $newsItem['slug'] ?>
+                        </td>
+                        <td class="p-2 align-middle hidden xl:table-cell [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
+                            <?= $newsItem['content'] ?>
+                        </td>
+                        <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
+                            <button class="p-2 bg-[#444444] text-white rounded-md hover:bg-[#555555] transition-colors duration-300">
+                                Edit
+                            </button>
+                            <button class="p-2 bg-[#D9534F] text-white rounded-md hover:bg-[#C9302C] transition-colors duration-300">
+                                Delete
+                            </button
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

@@ -1,9 +1,13 @@
 <?php
-session_start();
-if (!isset($_SESSION['auth'])) {
-    header('location:/login');
-    exit;
-}
+include('../../config/auth.php');
+include('../../config/db.php');
+include('../../includes/featured-products.php');
+
+global $conn;
+
+$featuredProducts = getFeaturedProducts($conn);
+
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -92,9 +96,6 @@ if (!isset($_SESSION['auth'])) {
                     <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] hidden sm:table-cell w-[100px]">
                         Thumbnail
                     </th>
-                    <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] xl:w-[150px]">
-                        Product Name
-                    </th>
                     <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] hidden sm:table-cell xl:w-[200px]">
                         Tagline
                     </th>
@@ -107,24 +108,20 @@ if (!isset($_SESSION['auth'])) {
                 </tr>
                 </thead>
                 <tbody class="[&_tr:last-child]:border-0">
+                <?php foreach ($featuredProducts as $product): ?>
                 <tr class="border-b transition-colors hover:bg-[#333333]/50 data-[state=selected]:bg-[#333333] border-[#333333]">
                     <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        1
+                        <?= $product['id'] ?>
                     </td>
                     <td class="p-2 align-middle hidden sm:table-cell [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
                         <img src="/assets/contents/rosegold.png" alt="Rolex Rosegold"
                              class="w-full h-auto object-cover">
                     </td>
-                    <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        Rolex Rosegold
-                    </td>
                     <td class="p-2 align-middle hidden sm:table-cell [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        Timeless Luxury, Redefined.
+                        <?= $product['tagline'] ?>
                     </td>
                     <td class="p-2 align-middle hidden xl:table-cell [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        Rose Gold offers timeless elegance with a modern touch of luxury. The beautiful rose gold finish
-                        provides a warm, refined look, while the precise mechanism makes it the ideal choice for those
-                        seeking a harmonious balance between aesthetic design and advanced technology in a watch.
+                        <?= $product['description'] ?>
                     </td>
                     <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
                         <button class="p-2 bg-[#444444] text-white rounded-md hover:bg-[#555555] transition-colors duration-300">
@@ -135,6 +132,7 @@ if (!isset($_SESSION['auth'])) {
                         </button
                     </td>
                 </tr>
+                <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

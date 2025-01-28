@@ -1,9 +1,15 @@
 <?php
-session_start();
-if (!isset($_SESSION['auth'])) {
-    header('location:/login');
-    exit;
-}
+include('../config/auth.php');
+include('../config/db.php');
+include('../includes/admins.php');
+include('../includes/news.php');
+
+global $conn;
+
+$totalUsers = getTotalAdmins($conn);
+$totalNews = getTotalNews($conn);
+
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -80,13 +86,17 @@ if (!isset($_SESSION['auth'])) {
             <!-- Total Users Card -->
             <div class="bg-[#2a2a2a] p-5 rounded-lg shadow-md transition-all hover:shadow-lg hover:bg-[#333333]">
                 <h3 class="text-xl font-semibold">Total Users</h3>
-                <p class="text-3xl font-bold">1200</p>
+                <p class="text-3xl font-bold">
+                    <?= $totalUsers ?>
+                </p>
             </div>
 
             <!-- Total News Card -->
             <div class="bg-[#2a2a2a] p-5 rounded-lg shadow-md transition-all hover:shadow-lg hover:bg-[#333333]">
                 <h3 class="text-xl font-semibold">Total News</h3>
-                <p class="text-3xl font-bold">150</p>
+                <p class="text-3xl font-bold">
+                    <?= $totalNews ?>
+                </p>
             </div>
         </div>
     </div>

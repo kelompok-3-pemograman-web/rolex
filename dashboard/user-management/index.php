@@ -1,9 +1,13 @@
 <?php
-session_start();
-if (!isset($_SESSION['auth'])) {
-    header('location:/login');
-    exit;
-}
+include('../../config/auth.php');
+include('../../config/db.php');
+include('../../includes/admins.php');
+
+global $conn;
+
+$admins = getAdmins($conn);
+
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -90,7 +94,7 @@ if (!isset($_SESSION['auth'])) {
                         ID
                     </th>
                     <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        Name
+                        Username
                     </th>
                     <th class="h-10 px-2 text-left align-middle font-medium text-[#A1A1AA] [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
                         Email
@@ -101,15 +105,16 @@ if (!isset($_SESSION['auth'])) {
                 </tr>
                 </thead>
                 <tbody class="[&_tr:last-child]:border-0">
+                <?php foreach ($admins as $admin): ?>
                 <tr class="border-b transition-colors hover:bg-[#333333]/50 data-[state=selected]:bg-[#333333] border-[#333333]">
                     <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        1
+                        <?= $admin['id'] ?>
                     </td>
                     <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        John Doe
+                        <?= $admin['username'] ?>
                     </td>
                     <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        john.d@gmail.com
+                        <?= $admin['email'] ?>
                     </td>
                     <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
                         <button class="p-2 bg-[#444444] text-white rounded-md hover:bg-[#555555] transition-colors duration-300">
@@ -120,24 +125,7 @@ if (!isset($_SESSION['auth'])) {
                         </button
                     </td>
                 </tr>
-                <tr class="border-b transition-colors hover:bg-[#333333]/50 data-[state=selected]:bg-[#333333] border-[#333333]">
-                    <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        2
-                    </td>
-                    <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        Jane Doe
-                    </td>
-                    <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        jane.d@gmail.com
-                    </td>
-                    <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        <button class="p-2 bg-[#444444] text-white rounded-md hover:bg-[#555555] transition-colors duration-300">
-                            Edit
-                        </button>
-                        <button class="p-2 bg-[#D9534F] text-white rounded-md hover:bg-[#C9302C] transition-colors duration-300">
-                            Delete
-                        </button>
-                    </td>
+                <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
