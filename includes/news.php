@@ -1,5 +1,5 @@
 <?php
-include("utils.php");
+include_once("utils.php");
 
 function getTotalNews($conn)
 {
@@ -18,6 +18,18 @@ function getNews($conn)
     $result = mysqli_query($conn, $query);
     if ($result) {
         $news = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        return $news;
+    }
+    return [];
+}
+
+function get3LatestNews($conn)
+{
+    $query = "SELECT * FROM news ORDER BY id DESC LIMIT 3";
+    $result = mysqli_query($conn, $query);
+    if ($result) {
+        $news = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
         return $news;
     }
     return [];

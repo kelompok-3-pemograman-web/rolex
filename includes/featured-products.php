@@ -1,5 +1,5 @@
 <?php
-include("utils.php");
+include_once("utils.php");
 
 function getTotalFeaturedProducts($conn)
 {
@@ -18,6 +18,22 @@ function getFeaturedProducts($conn)
     $result = mysqli_query($conn, $query);
     if ($result) {
         $featuredProducts = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        return $featuredProducts;
+    }
+    return [];
+}
+
+function get3LatestFeaturedProducts($conn)
+{
+    $query = "SELECT * FROM featured_products ORDER BY id DESC LIMIT 3";
+    $result = mysqli_query($conn, $query);
+    if ($result) {
+        $featuredProducts = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+        usort($featuredProducts, function($a, $b) {
+            return $a['id'] - $b['id'];
+        });
+
         return $featuredProducts;
     }
     return [];

@@ -1,3 +1,16 @@
+<?php
+include('config/db.php');
+include('includes/featured-products.php');
+include('includes/news.php');
+
+global $conn;
+
+$featuredProducts = get3LatestFeaturedProducts($conn);
+$news = get3LatestNews($conn);
+
+mysqli_close($conn);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,83 +87,34 @@
                 <div class="w-[67px] h-[1px] bg-[#EFBE8A] mb-4"></div>
                 <h2 class="text-3xl font-bold text-center mb-12">Featured</h2>
             </div>
-            <!-- jassmaster -->
-            <div class="flex flex-col md:flex-row justify-center gap-8 mt-5 md:p-0 p-5">
-                <div class="py-12 px-16 w-full md:w-[550px] z-[1] h-full rounded-lg bg-[#333333] relative">
-                    <div class="absolute top-20 left-[-20px] -rotate-90 bg-[#EFBE8A] text-white text-base font-bold px-5 py-[5px]">
-                        SALE
+            <?php foreach ($featuredProducts as $index => $product): ?>
+                <div class="flex flex-col md:flex-row <?= $index == 1 ? 'md:flex-row-reverse' : '' ?> justify-center gap-8 mt-5 md:p-0 p-5">
+                    <div class="py-12 px-16 w-full md:w-[550px] z-[1] h-full rounded-lg bg-[#333333] relative">
+                        <div class="absolute top-20 left-[-20px] -rotate-90 bg-[#EFBE8A] text-white text-base font-bold px-5 py-[5px]">
+                            SALE
+                        </div>
+                        <img alt="<?= $product['name'] ?>" class="w-full h-full object-contain" src="<?= $product['image_url'] ?>" width="130" height="215" />
+                        <div class="text-center mt-4">
+                            <h2 class="text-lg font-semibold uppercase">
+                                <?= $product['name'] ?>
+                            </h2>
+                        </div>
                     </div>
-                    <img alt="jassmaster" class="w-full h-full object-contain" src="assets/contents/jazzmaster.png" width="130" height="215" />
-                    <div class="text-center mt-4">
-                        <h2 class="text-lg font-semibold">
-                            JAZZMASTER
-                        </h2>
-                    </div>
-                </div>
-                <div class="mt-8 md:mt-12 md:ml-8 text-center md:text-left pr-[5vw]">
-                    <h1 class="text-3xl md:text-5xl  font-bold">
-                        WHERE PRECISION MEETS ELEGANCE.
-                    </h1>
-                    <p class="mt-4 text-gray-400">
-                        Jazzmaster embodies precision and elegance in its finest form. With a classic design that seamlessly blends sophistication and accuracy, this timepiece is perfect for those who value craftsmanship and beauty in every detail. Each tick of the Jazzmaster represents a fusion of tradition and innovation in horology.
-                    </p>
-                    <button class="mt-6 bg-[#BFBFBF] text-black py-2 px-4 rounded hover:bg-gray-600">
-                        Discover
-                    </button>
-                </div>
-            </div>
-            <!-- ingersol -->
-            <div class="flex flex-col md:flex-row-reverse justify-center gap-8 mt-5 md:p-0 p-5">
-                <div class="py-12 px-16 w-full md:w-[550px] h-full rounded-lg bg-[#333333] relative">
-                    <div class="absolute top-20 left-[-20px] -rotate-90 bg-[#EFBE8A] text-white text-base font-bold px-5 py-[5px]">
-                        SALE
-                    </div>
-                    <img alt="jassmaster" class="w-full h-full object-contain" src="assets/contents/ingersoll.png" width="130" height="215" />
-                    <div class="text-center mt-4">
-                        <h2 class="text-lg font-semibold">
-                            INGERSOLL
-                        </h2>
+                    <div class="mt-8 md:mt-12 md:ml-8 text-center md:text-left pr-[5vw]">
+                        <h1 class="text-3xl md:text-5xl font-bold <?= $index == 1 ? 'md:text-right' : '' ?>">
+                            <?= $product['tagline'] ?>
+                        </h1>
+                        <p class="mt-4 text-gray-400 <?= $index == 1 ? 'md:text-right' : '' ?>">
+                            <?= $product['description'] ?>
+                        </p>
+                        <div class="flex justify-center md:justify-<?= $index == 1 ? 'end' : 'start' ?>">
+                            <a href="products?id=<?= $product['id'] ?>" class="mt-6 bg-[#BFBFBF] text-black py-2 px-4 rounded hover:bg-gray-600">
+                                Discover
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="mt-8 md:mt-12 md:ml-8 md:text-left pr-[5vw]">
-                    <h1 class="text-3xl md:text-5xl text-center md:text-right  font-bold">
-                        Built for Durability, Designed for Performance.
-                    </h1>
-                    <p class="mt-4 text-gray-400 text-center md:text-right ">
-                        Ingersoll represents a rich legacy in watchmaking, with a history dating back to 1892. Known for its durability and reliability, this timepiece is designed for those who value high quality and functionality in all conditions. With a strong and practical design, Ingersoll is the perfect choice for those who demand performance without compromise.
-                    </p>
-                    <div class="flex justify-center md:justify-end ">
-                        <button class="mt-6 bg-[#BFBFBF] text-black py-2 px-4 rounded hover:bg-gray-600">
-                            Discover
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- rose gold -->
-            <div class="flex flex-col md:flex-row justify-center gap-8 mt-5 md:p-0 p-5">
-                <div class="py-12 px-16 w-full md:w-[550px] h-full rounded-lg bg-[#333333] relative">
-                    <div class="absolute top-20 left-[-20px] -rotate-90 bg-[#EFBE8A] text-white text-base font-bold px-5 py-[5px]">
-                        SALE
-                    </div>
-                    <img alt="jassmaster" class="w-full h-full object-contain" src="assets/contents/rosegold.png" width="130" height="215" />
-                    <div class="text-center mt-4">
-                        <h2 class="text-lg font-semibold">
-                            Rose Gold
-                        </h2>
-                    </div>
-                </div>
-                <div class="mt-8 md:mt-12 md:ml-8 text-center md:text-left pr-[5vw]">
-                    <h1 class="text-3xl md:text-5xl  font-bold">
-                        Timeless Luxury, Redefined.
-                    </h1>
-                    <p class="mt-4 text-gray-400">
-                        Rose Gold offers timeless elegance with a modern touch of luxury. The beautiful rose gold finish provides a warm, refined look, while the precise mechanism makes it the ideal choice for those seeking a harmonious balance between aesthetic design and advanced technology in a watch.
-                    </p>
-                    <button class="mt-6 bg-[#BFBFBF] text-black py-2 px-4 rounded hover:bg-gray-600">
-                        Discover
-                    </button>
-                </div>
-            </div>
+            <?php endforeach; ?>
     </section>
 
     <!-- about section -->
@@ -239,38 +203,17 @@
             <h2 class="text-3xl font-bold text-center mb-12">News</h2>
         </div>
         <div class="container mx-auto flex flex-wrap gap-10">
-            <!-- News Item 1 -->
+            <?php foreach ($news as $newsItem): ?>
             <div class="flex flex-col md:flex-row items-start gap-6">
-                <img src="assets/contents/rolex-unviels.png" class="w-full md:w-1/3 h-auto" alt="Rolex Unveils">
+                <img src="<?= $newsItem['image_url'] ?>" class="w-full md:w-1/3 h-auto" alt="<?= $newsItem['title'] ?>">
                 <div class="flex flex-col px-4">
-                    <p class="text-gray-400 text-xs">3 January 2025</p>
-                    <h3 class="text-white text-2xl md:text-3xl mt-1 mb-3">Rolex Unveils Its Latest Innovation: The Oyster Perpetual Explorer</h3>
-                    <p class="text-md text-[#BFBFBF] line-clamp-3">Rolex has once again raised the bar in horology with the launch of its new Oyster Perpetual Explorer. Combining cutting-edge technology with the brand's signature precision, this new model pushes the boundaries of adventure and endurance. Designed for explorers and thrill-seekers, the Explorer features enhanced durability and an updated aesthetic, ensuring that it stands the test of time in the most extreme conditions.</p>
-                    <button class="bg-[#BFBFBF] text-black py-2 px-4 my-4 rounded hover:bg-gray-600 w-fit">Read More</button>
+                    <p class="text-gray-400 text-xs"><?= (new DateTime($newsItem['created_at']))->format('j F Y') ?></p>
+                    <h3 class="text-white text-2xl md:text-3xl mt-1 mb-3"><?= $newsItem['title'] ?></h3>
+                    <p class="text-md text-[#BFBFBF] line-clamp-3"><?= $newsItem['content'] ?></p>
+                    <a href="news?v=<?= $newsItem['slug'] ?>" class="bg-[#BFBFBF] text-black py-2 px-4 my-4 rounded hover:bg-gray-600 w-fit">Read More</a>
                 </div>
             </div>
-
-            <!-- News Item 2 -->
-            <div class="flex flex-col md:flex-row items-start gap-6">
-                <img src="assets/contents/crafting-a-rolex.png" class="w-full md:w-1/3 h-auto" alt="Crafting a Rolex">
-                <div class="flex flex-col px-4">
-                    <p class="text-gray-400 text-xs">3 December 2024</p>
-                    <h3 class="text-white text-2xl md:text-3xl mt-1 mb-3">The Art of Crafting a Rolex: Inside the Manufacturing Process</h3>
-                    <p class="text-md text-[#BFBFBF] line-clamp-3">Rolex invites watch enthusiasts and collectors behind the scenes with an exclusive look into the meticulous craftsmanship that goes into every timepiece. From hand-assembling movements to the careful polishing of each case, this feature reveals the dedication and expertise behind every Rolex watch. Discover the precision, innovation, and tradition that continue to define Rolex’s legacy of excellence in watchmaking.</p>
-                    <button class="bg-[#BFBFBF] text-black py-2 px-4 my-4 rounded hover:bg-gray-600 w-fit">Read More</button>
-                </div>
-            </div>
-
-            <!-- News Item 3 -->
-            <div class="flex flex-col md:flex-row items-start gap-6">
-                <img src="assets/contents/rolex-celebrates.png" class="w-full md:w-1/3 h-auto" alt="Rolex Celebrates">
-                <div class="flex flex-col px-4">
-                    <p class="text-gray-400 text-xs">3 November 2024</p>
-                    <h3 class="text-white text-2xl md:text-3xl mt-1 mb-3">Rolex Celebrates 120 Years of Timeless Elegance</h3>
-                    <p class="text-md text-[#BFBFBF] line-clamp-3">This year marks a major milestone for Rolex as it celebrates 120 years of unparalleled excellence in watchmaking. A legacy that began in 1905 continues to shape the future of horology, with Rolex continuing to innovate while staying true to its roots of precision, craftsmanship, and luxury. Join us in celebrating this historic occasion, as we look back at the key moments that have defined the Rolex story over the decades.</p>
-                    <button class="bg-[#BFBFBF] text-black py-2 px-4 my-4 rounded hover:bg-gray-600 w-fit">Read More</button>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
     </section>
 
@@ -288,9 +231,9 @@
                 <div>
                     <h2 class="text-lg font-semibold mb-4">Quick Links</h2>
                     <ul>
-                        <li><a href="#" class="hover:underline">About Us</a></li>
-                        <li><a href="#" class="hover:underline">Products</a></li>
-                        <li><a href="#" class="hover:underline">News</a></li>
+                        <li><a href="#about" class="hover:underline">About Us</a></li>
+                        <li><a href="#featured" class="hover:underline">Products</a></li>
+                        <li><a href="#news" class="hover:underline">News</a></li>
                         <li><a href="#" class="hover:underline">Privacy Policy</a></li>
                         <li><a href="#" class="hover:underline">Terms & Conditions</a></li>
                     </ul>
@@ -298,9 +241,9 @@
                 <div>
                     <h2 class="text-lg font-semibold mb-4">Product</h2>
                     <ul>
-                        <li><a href="#" class="hover:underline">Jazzmaster</a></li>
-                        <li><a href="#" class="hover:underline">Ingersoll</a></li>
-                        <li><a href="#" class="hover:underline">Rose Gold</a></li>
+                        <?php foreach ($featuredProducts as $product): ?>
+                            <li><a href="products?id=<?= $product['id'] ?>" class="hover:underline"><?= $product['name'] ?></a></li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <div>
