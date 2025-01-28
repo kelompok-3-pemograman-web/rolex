@@ -90,6 +90,29 @@ function createNews($conn, $data, $file)
     return "Failed to create news.";
 }
 
+function deleteNews($conn, $id)
+{
+    $news = getNewsById($conn, $id);
+    if (!$news) {
+        $error = "News not found.";
+        return $error;
+    }
+
+    $imagePath = $_SERVER['DOCUMENT_ROOT'] . $news['image_url'];
+    if (file_exists($imagePath)) {
+        unlink($imagePath);
+    }
+
+    $query = "DELETE FROM news WHERE id = ?";
+    if ($stmt = mysqli_prepare($conn, $query)) {
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        return false;
+    }
+    return "Failed to delete news.";
+}
+
 function validateNewsData($title, $slug, $content)
 {
     if (strlen($title) < 5 || strlen($title) > 255) {

@@ -150,9 +150,15 @@ mysqli_close($conn);
                             <button class="p-2 bg-[#444444] text-white rounded-md hover:bg-[#555555] transition-colors duration-300">
                                 Edit
                             </button>
-                            <button class="p-2 bg-[#D9534F] text-white rounded-md hover:bg-[#C9302C] transition-colors duration-300">
-                                Delete
-                            </button
+                            <form action="/dashboard/news/delete.php?id=<?= $newsItem['id'] ?>"
+                                  method="post"
+                                  class="inline">
+                                <button type="submit"
+                                        class="p-2 bg-[#D9534F] text-white rounded-md hover:bg-[#C9302C] transition-colors duration-300"
+                                        onclick="return confirm('Are you sure you want to delete this news?')">
+                                    Delete
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     <?php $i++; ?>
