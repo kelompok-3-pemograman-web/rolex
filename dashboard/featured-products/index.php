@@ -144,10 +144,12 @@ mysqli_close($conn);
                             <?= $product['description'] ?>
                         </td>
                         <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                            <button class="p-2 bg-[#444444] text-white rounded-md hover:bg-[#555555] transition-colors duration-300">
+                            <a href="/dashboard/featured-products/edit?id=<?= $product['id'] ?>"
+                               class="p-2 bg-[#444444] text-white rounded-md hover:bg-[#555555] transition-colors duration-300 inline-block">
                                 Edit
-                            </button>
-                            <form action="/dashboard/featured-products/delete.php?id=<?= $product['id'] ?>" method="post"
+                            </a>
+                            <form action="/dashboard/featured-products/delete.php?id=<?= $product['id'] ?>"
+                                  method="post"
                                   class="inline">
                                 <button type="submit"
                                         class="p-2 bg-[#D9534F] text-white rounded-md hover:bg-[#C9302C] transition-colors duration-300"

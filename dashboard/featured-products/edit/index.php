@@ -5,12 +5,23 @@ include('../../../includes/featured-products.php');
 
 global $conn;
 
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $id = $_GET['id'];
+} else {
+    die('ID is not valid');
+}
+
+$featuredProduct = getFeaturedProductById($conn, $id);
+if ($featuredProduct === false) {
+    die('Featured product not found');
+}
+
 if (isset($_POST["submit"])) {
-    $error = createFeaturedProduct($conn, $_POST, $_FILES['image']);
+    $error = updateFeaturedProduct($conn, $id, $_POST, $_FILES['image']);
     if ($error === false) {
         header("Location: /dashboard/featured-products");
     } else {
-        header("Location: /dashboard/featured-products/create?error=$error");
+        header("Location: /dashboard/featured-products/edit?error=$error");
     }
     mysqli_close($conn);
     exit;
@@ -108,12 +119,12 @@ if (isset($_POST["submit"])) {
                     </svg>
                 </li>
                 <li class="inline-flex items-center gap-1.5">
-                    <span class="font-normal text-[#C9C9C9]">Create</span>
+                    <span class="font-normal text-[#C9C9C9]">Edit</span>
                 </li>
             </ol>
         </nav>
 
-        <h1 class="text-3xl font-semibold mb-6">Create New Featured Product</h1>
+        <h1 class="text-3xl font-semibold mb-6">Edit Featured Product</h1>
 
         <?php if (isset($_GET['error'])): ?>
             <div>
@@ -129,17 +140,18 @@ if (isset($_POST["submit"])) {
             <!-- Image -->
             <div class="flex flex-col space-y-1">
                 <label for="image" class="text-sm">Image</label>
-                <input type="file" id="image" name="image" accept="image/*" required
+                <input type="file" id="image" name="image" accept="image/*"
                        class="p-2 bg-[#333333] rounded-md outline-none focus:outline-[#444444]">
             </div>
 
             <!-- Image Preview -->
-            <img id="preview" class="hidden max-w-md h-auto object-cover rounded-md" alt="Image Preview" src="">
+            <img id="preview" class="max-w-md h-auto object-cover rounded-md" alt="Image Preview"
+                 src="<?= $featuredProduct['image_url'] ?>">
 
             <!-- Tagline -->
             <div class="flex flex-col space-y-1">
                 <label for="tagline" class="text-sm">Tagline</label>
-                <input type="text" id="tagline" name="tagline" required
+                <input type="text" id="tagline" name="tagline" value="<?= $featuredProduct['tagline'] ?>" required
                        class="p-2 bg-[#333333] rounded-md outline-none focus:outline-[#444444]">
             </div>
 
@@ -147,13 +159,13 @@ if (isset($_POST["submit"])) {
             <div class="flex flex-col space-y-1">
                 <label for="description" class="text-sm">Description</label>
                 <textarea id="description" name="description" required
-                          class="p-2 bg-[#333333] rounded-md outline-none focus:outline-[#444444] min-h-[100px] max-h-[300px]"></textarea>
+                          class="p-2 bg-[#333333] rounded-md outline-none focus:outline-[#444444] min-h-[100px] max-h-[300px]"><?= $featuredProduct['description'] ?></textarea>
             </div>
 
             <!-- Submit Button -->
             <button name="submit" type="submit"
                     class="w-full p-2 bg-[#444444] text-white hover:bg-[#555555] rounded-md transition-colors duration-300 outline-none focus:outline-[#444444]">
-                Create Featured Product
+                Edit Featured Product
             </button>
         </form>
     </div>
@@ -202,7 +214,6 @@ if (isset($_POST["submit"])) {
             reader.onload = function (e) {
                 const preview = document.getElementById('preview');
                 preview.src = e.target.result;
-                preview.style.display = 'block';
             };
 
             reader.readAsDataURL(file);
