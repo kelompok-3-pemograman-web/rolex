@@ -1,5 +1,6 @@
 <?php
-function getFeaturedProducts($conn) {
+function getFeaturedProducts($conn)
+{
     $query = "SELECT * FROM featured_products";
     $result = mysqli_query($conn, $query);
     if ($result) {
@@ -8,4 +9,3 @@ function getFeaturedProducts($conn) {
     }
     return [];
 }
-?>

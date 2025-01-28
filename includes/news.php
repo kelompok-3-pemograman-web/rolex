@@ -1,5 +1,6 @@
 <?php
-function getTotalNews($conn) {
+function getTotalNews($conn)
+{
     $query = "SELECT COUNT(*) AS total_news FROM news";
     $result = mysqli_query($conn, $query);
     if ($result) {
@@ -9,7 +10,8 @@ function getTotalNews($conn) {
     return 0;
 }
 
-function getNews($conn) {
+function getNews($conn)
+{
     $query = "SELECT * FROM news";
     $result = mysqli_query($conn, $query);
     if ($result) {
@@ -18,5 +20,3 @@ function getNews($conn) {
     }
     return [];
 }
-?>
-

@@ -78,6 +78,24 @@ mysqli_close($conn);
             <i class="fas fa-bars text-xl"></i>
         </button>
 
+        <!-- Breadcrumbs -->
+        <nav class="mb-2">
+            <ol class="flex flex-wrap items-center gap-1.5 break-words text-sm text-[#A1A1AA] sm:gap-2.5">
+                <li class="inline-flex items-center gap-1.5">
+                    <a class="transition-colors hover:text-[#C9C9C9]" href="/dashboard">Home</a>
+                </li>
+                <li role="presentation" aria-hidden="true" class="[&>svg]:w-3.5 [&>svg]:h-3.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18 6-6-6-6"></path>
+                    </svg>
+                </li>
+                <li class="inline-flex items-center gap-1.5">
+                    <span class="font-normal text-[#C9C9C9]">News</span>
+                </li>
+            </ol>
+        </nav>
+
         <h1 class="text-3xl font-semibold mb-6">News</h1>
 
         <!-- Create Button -->

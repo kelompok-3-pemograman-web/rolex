@@ -78,11 +78,31 @@ mysqli_close($conn);
             <i class="fas fa-bars text-xl"></i>
         </button>
 
+        <!-- Breadcrumbs -->
+        <nav class="mb-2">
+            <ol class="flex flex-wrap items-center gap-1.5 break-words text-sm text-[#A1A1AA] sm:gap-2.5">
+                <li class="inline-flex items-center gap-1.5">
+                    <a class="transition-colors hover:text-[#C9C9C9]" href="/dashboard">Home</a>
+                </li>
+                <li role="presentation" aria-hidden="true" class="[&>svg]:w-3.5 [&>svg]:h-3.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m9 18 6-6-6-6"></path>
+                    </svg>
+                </li>
+                <li class="inline-flex items-center gap-1.5">
+                    <span class="font-normal text-[#C9C9C9]">User Management</span>
+                </li>
+            </ol>
+        </nav>
+
         <h1 class="text-3xl font-semibold mb-6">User Management</h1>
 
         <!-- Create Button -->
         <button class="p-2 bg-[#C69C6D] text-white rounded-md hover:bg-[#E0B97D] transition-colors duration-300 mb-6">
-            Create
+            <a href="/dashboard/user-management/create">
+                Create
+            </a>
         </button>
 
         <!-- User Management Table -->
@@ -106,25 +126,25 @@ mysqli_close($conn);
                 </thead>
                 <tbody class="[&_tr:last-child]:border-0">
                 <?php foreach ($admins as $admin): ?>
-                <tr class="border-b transition-colors hover:bg-[#333333]/50 data-[state=selected]:bg-[#333333] border-[#333333]">
-                    <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        <?= $admin['id'] ?>
-                    </td>
-                    <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        <?= $admin['username'] ?>
-                    </td>
-                    <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        <?= $admin['email'] ?>
-                    </td>
-                    <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
-                        <button class="p-2 bg-[#444444] text-white rounded-md hover:bg-[#555555] transition-colors duration-300">
-                            Edit
-                        </button>
-                        <button class="p-2 bg-[#D9534F] text-white rounded-md hover:bg-[#C9302C] transition-colors duration-300">
-                            Delete
-                        </button
-                    </td>
-                </tr>
+                    <tr class="border-b transition-colors hover:bg-[#333333]/50 data-[state=selected]:bg-[#333333] border-[#333333]">
+                        <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
+                            <?= $admin['id'] ?>
+                        </td>
+                        <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
+                            <?= $admin['username'] ?>
+                        </td>
+                        <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
+                            <?= $admin['email'] ?>
+                        </td>
+                        <td class="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]">
+                            <button class="p-2 bg-[#444444] text-white rounded-md hover:bg-[#555555] transition-colors duration-300">
+                                Edit
+                            </button>
+                            <button class="p-2 bg-[#D9534F] text-white rounded-md hover:bg-[#C9302C] transition-colors duration-300">
+                                Delete
+                            </button
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
                 </tbody>
             </table>
