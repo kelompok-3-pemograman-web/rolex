@@ -49,13 +49,13 @@ File `schema.sql` ini akan membuat database dan semua tabel dan relasi yang dipe
 Setelah database terkonfigurasi, buka browser dan akses **halaman utama** dengan URL berikut:
 
 ```text
-http://localhost
+http://localhost/rolex
 ```
 
 - Untuk mengakses **dashboard admin**, buka URL berikut dan masukkan kredensial login:
 
 ```text
-http://localhost/login
+http://localhost/rolex/login
 ```
 
 **Kredensial login**:
