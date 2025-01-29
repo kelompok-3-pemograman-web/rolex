@@ -19,7 +19,32 @@ Pindahkan folder hasil clone ke lokasi sesuai dengan server lokal Anda:
 - **XAMPP**: `C:/xampp/htdocs/rolex`
 - **WAMP**: `C:/wamp/www/rolex`
 
-### 2. Menjalankan Website
+### 2. Mengubah Konfigurasi Database
+
+Setelah folder proyek berada di lokasi yang tepat, buka file `config/db.php`, lalu ubah bagian konfigurasi koneksi database seperti berikut:
+
+```php
+$servername = "localhost:3306";
+```
+
+### 3. Menjalankan MySQL
+
+Pastikan server lokal Anda (XAMPP/WAMP) sedang berjalan dan MySQL sudah aktif.
+
+- **XAMPP**: Pastikan Apache dan MySQL berjalan.
+- **WAMP**: Pastikan WAMP berwarna hijau, yang menandakan server berjalan.
+
+### 4. Jalankan `schema.sql`
+
+Untuk membuat struktur database yang diperlukan oleh proyek ini, jalankan file `schema.sql` yang ada di dalam folder proyek.
+
+1. Buka **phpMyAdmin** di browser (biasanya diakses di `http://localhost/phpmyadmin`).
+2. Pilih tab **Import**, pilih file `schema.sql` yang ada di folder proyek Anda.
+3. Klik **Go** untuk mengimpor dan membuat struktur database.
+
+File `schema.sql` ini akan membuat database dan semua tabel dan relasi yang diperlukan untuk menjalankan aplikasi dengan benar.
+
+### 5. Menjalankan Website
 
 1. Pastikan server lokal Anda (XAMPP/WAMP) sedang berjalan.
 2. Buka browser, lalu akses:
