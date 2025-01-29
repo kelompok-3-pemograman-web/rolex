@@ -46,13 +46,22 @@ File `schema.sql` ini akan membuat database dan semua tabel dan relasi yang dipe
 
 ### 5. Menjalankan Website
 
-1. Pastikan server lokal Anda (XAMPP/WAMP) sedang berjalan.
-2. Buka browser, lalu akses:
-   ```
-   http://localhost/rolex
-   ```
+Setelah database terkonfigurasi, buka browser dan akses **halaman utama** dengan URL berikut:
 
-Website akan tampil di browser Anda.
+```text
+http://localhost
+```
+
+- Untuk mengakses **dashboard admin**, buka URL berikut dan masukkan kredensial login:
+
+```text
+http://localhost/login
+```
+
+**Kredensial login**:
+
+- **Username**: admin
+- **Password**: 123123
 
 ---
 
@@ -128,20 +137,3 @@ rolex/
    Untuk mengakses website melalui `localhost`.
 
 ---
-
-## 🔐 Halaman Login
-Untuk mengakses halaman login, buka browser dan navigasikan ke:
-
-```bash
-http://localhost:port/rolex/login
-```
-
-Masukkan username dan password berikut:
-
-* Username: admin
-* Password: 123123
-
-Jika login berhasil, Anda akan diarahkan ke halaman dashboard.
-
----
-
